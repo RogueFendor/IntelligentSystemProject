@@ -3,18 +3,19 @@ import java.io.*;
 public class Is13116371 
 {
 	public static final int popSize =100;
-	public static void main(String [] args) throws IOException{
+	
+        public static void main(String [] args) throws IOException{
 		
-		File dataFile = new File("data.txt");
-	    Scanner in = new Scanner(dataFile);
-        int maxNum = getMaxEdges(in)+1;
-        int [][]matrixArray = new int [maxNum][maxNum];
+         File dataFile = new File("data.txt");
+	     Scanner in = new Scanner(dataFile);
+         int maxNum = getMaxEdges(in)+1;
+         int [][]matrixArray = new int [maxNum][maxNum];
 
-        setToZero(matrixArray,maxNum);
+         setToZero(matrixArray,maxNum);
 
-        createMatrix(in,maxNum,matrixArray);
-        displayMatrix(matrixArray,maxNum);
-        generatePopulation(maxNum);
+         createMatrix(in,maxNum,matrixArray);
+         displayMatrix(matrixArray,maxNum);
+         generatePopulation(maxNum);
 
 	}
 
@@ -58,21 +59,36 @@ public class Is13116371
 	    in.close();
 	}	
 	public static void generatePopulation(int maxNum){
-
-		// generate random permutation of string of 0 to max num
-           
-           /*   
-               
-            
-           */
-
+	   // generate random permutation of string of 0 to max num
        int num=0;
-     
-       int 
-       for(int i=0; i<maxNum+1;i++){
-           num = randomNum(maxNum);
-           System.out.println(num);
-       }
+       int [][] array = new int [popSize][maxNum];
+       int j =0;
+       while(j<maxNum){    
+	       for(int i=0;i<popSize;i++){
+		      num = randomNum(maxNum);
+		      if(j==0){
+		      	 array[i][j]=num;
+		      }
+		      else if(j>0){
+		      	if(check(num,maxNum,array,i,j)==true){
+		      	   System.out.println("Humm...TRUE");
+		      	}
+		      	else{
+		      	   array[i][j]=num;
+		      	}
+		      }
+               //System.out.println(array[i][j]);
+	       }
+	       //System.out.println("\n");
+	       j++;
+	    }
+	    for(int i=0;i<popSize;i++){
+			for( j=0;j<maxNum;j++){
+			  	System.out.print(array[i][j]+" ");
+			}
+			System.out.println("\n");
+		}
+
 	}
     public static void displayMatrix(int [][] matrixArray,int n){
 		for(int i=0;i<n;i++){
@@ -81,6 +97,18 @@ public class Is13116371
 			}
 			//System.out.println("\n");
 		}
+	}
+	public static boolean check(int num,int maxNum,int [][]array,int currentRows,int currentCols){
+         boolean isDouble=false;
+         for(int i=0;i<currentRows;i++){
+			for(int j=0;j<currentCols;j++){
+			  	if(array[i][j]==num){
+			  	   isDouble =true;
+			  	   break;
+     	  	    }	  	
+		    }
+		}
+		return isDouble;
 	}
 	public static int randomNum(int maxNum){
 

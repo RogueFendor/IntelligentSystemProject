@@ -1,0 +1,49 @@
+ int kMatRow=0;
+                int kMatCol=0;
+                int row=0;
+                int col=0;
+               
+                for(int i = 0; i< tables.length;i++){
+                   fitness =0;
+                   squareTable = tables[i];
+                   int kMatLen = squareTable.getNewSize();
+                   
+                    for(int a=0;a<n;a++){
+                      if(kMatLen > row){
+                        System.out.println("test a < row "+row);
+                        row = row +1;
+                      }
+                      else{
+                        kMatRow = kMatLen + a;
+                         System.out.println("test a > row "+row);   
+                        row = 0;
+                       
+                        //row = row +1;
+                      }
+                      for(int b=0;b<n;b++){
+                       // if(matrixArray[a][b]==1){
+                          if( kMatLen > col){
+                           System.out.println("test a < col "+col);
+                            col = col +1;
+                          }
+                          else{
+                            kMatCol = kMatCol + b;
+                            System.out.println("test a > col "+col);
+                            col=0;
+                            
+                            //col = col +1;
+                            
+                          }
+                   //       System.out.println("test row and col"+kMatRow+" "+kMatCol);
+                          /*
+                          len1 = Math.pow(squareTable.getCoordinate(kMatRow,kMatCol).getX_vertex(),2) - Math.pow(squareTable.getCoordinate(kMatCol,kMatRow).getX_vertex(),2);
+                          len2 = Math.pow(squareTable.getCoordinate(kMatRow,kMatCol).getY_vertex(),2) - Math.pow(squareTable.getCoordinate(kMatCol,kMatRow).getY_vertex(),2);
+                          len1 = len1 + len2;
+                          fitness = fitness + Math.sqrt(len1);
+                          */
+                       // } 
+                      }
+                    }
+                    //tables[i].setFitnessFunc(fitness);
+                }
+               //testRun(populations,n,matrixArray,tables);

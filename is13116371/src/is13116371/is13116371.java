@@ -113,7 +113,6 @@ public class is13116371
                        list.add(i,p1[i]);
                        list.add(i+1,p2[i]);
                     }
-                    System.out.println("Test + "+ list.size());
                     for(int j=0;j<list.size();j++){
                        double n = list.get(j);
                        for(int x =j+1;x<list.size();x++){
@@ -272,22 +271,94 @@ public class is13116371
             private double array[];
             private ArrayList<double[]>pops;
             private int length;
+            protected File outputFile;
+            protected PrintWriter writer;
+            protected FileWriter out;
+            protected BufferedWriter bw;
+            protected Scanner in;
+            
+            public MySorter(){
+              outputFile = new File("out.txt");
+            if(!outputFile.exists()) {
+                 try {
+                     outputFile.createNewFile();
+                 } catch (IOException ex) {
+                    System.out.println("Error in creating file "+ex);
+                 }
+            }
+            writeBestFitnessValue("firstCut");
+            
+            }
             public void testFitnessArray(){
               for(int i = 0;i<array.length;i++){
               }
             }
-            public void testPopulationsArray(){
+            public void writeBestFitnessValue(String n){
+            try
+             {
+               if(n.equals("firstCut")){
+               out= new FileWriter(this.outputFile);
+                n="";
+               }
+               else{
+               out= new FileWriter(this.outputFile,true);
+                
+               }
+               bw = new BufferedWriter(out);
+               writer = new PrintWriter(bw);
+               writer.println(n);
+
+             } 
+             catch (IOException e) {
+               System.out.println("Error in sys.log "+e);
+             }
+             finally{
+               try{
+                 writer.close();
+                 bw.close();
+                 out.close();
+               }
+               catch( Exception e){
+                    System.out.println( e.getClass().getName() + ": " + e.getMessage() );
+                    System.out.println("Error writing file");
+               }
+
+            }
+            }
+            public void writePopulationsArray(){
              double[] array = new double [pops.get(0).length];
              String res="";
              for (int j=0;j<pops.size();j++){
-              res+="Test fitness val for Population: "+j+" value:  "+this.array[j];
+              res+="Fitness val:  "+this.array[j]+" Pop: ";
               array = pops.get(j);
               for(int i = 0;i<array.length;i++){
-                res+= "Test: "+array[i];             
+                res+= " "+(int)array[i];             
               }
               res+="\n";
              }
-             System.out.println(res);
+             try
+             {
+               out= new FileWriter(this.outputFile, true);
+               bw = new BufferedWriter(out);
+               writer = new PrintWriter(bw);
+               writer.println(res);
+
+             } 
+             catch (IOException e) {
+               System.out.println("Error in sys.log "+e);
+             }
+             finally{
+               try{
+                 writer.close();
+                 bw.close();
+                 out.close();
+               }
+               catch( Exception e){
+                    System.out.println( e.getClass().getName() + ": " + e.getMessage() );
+                    System.out.println("Error writing file");
+               }
+
+            }
             }
             public void sort(double[] inputArr,ArrayList<double[]> populations) {
 
@@ -574,7 +645,7 @@ public class is13116371
                     generatePopulation2(maxNum,populations,a);
                   }
                   callToOsiris(populations,matrixArray);
-              //    displayPopulations2(populations,maxNum);
+                  //displayPopulations2(populations,maxNum);
                   runFitnessFunction(populations,maxNum,matrixArray,fitnesseFunc);
                   MySorter betterSorting = new MySorter();
                   betterSorting.sort(fitnesseFunc, populations);
@@ -594,14 +665,13 @@ public class is13116371
                      god.theSevenDaysOfCreation();
                      populations = god.getMyCreation();
                      runFitnessFunction(populations,maxNum,matrixArray,fitnesseFunc);
-                   //  displayPopulations2(populations,maxNum);
+                     //displayPopulations2(populations,maxNum);
                      betterSorting.sort(fitnesseFunc, populations);
                      // callToOsiris(populations,matrixArray);
-                     //betterSorting.testPopulationsArray();
+                     betterSorting.writePopulationsArray();
                      betterSorting.Darwin(populations);
                      //printMinVal(fitnesseFunc);
-                     //count++;
-                  System.out.println("################################################ ctr "+count);   
+                     //count++  
                  }
                
                  populations = god.getMyCreation();
@@ -610,7 +680,7 @@ public class is13116371
                   betterSorting.Darwin(populations);
                    // v is the number of nodes
                  callToOsiris(populations,matrixArray);
-                 System.out.println("fitness Val "+ fitnesseFunc[0]);
+                 betterSorting.writeBestFitnessValue("\n\n[*]  Best Fitness value "+fitnesseFunc[0]);
                 }
                 catch( IOException e){
                     System.out.println("ERROR\nthis file does not exists!\nDid you specify the path?");
@@ -619,7 +689,7 @@ public class is13116371
             public static void printMinVal(double [] fitnesseFunc){
                  int len =fitnesseFunc.length;
                  for(int i=0;i<len;i++){
-                    System.out.println(" Best Fitness value "+fitnesseFunc[0]);
+                   
                  }
             }
             public static void callToOsiris(ArrayList<double[]> populations,int [][]matrixArray){
